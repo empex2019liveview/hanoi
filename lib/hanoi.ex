@@ -66,4 +66,16 @@ defmodule Hanoi do
      true
   """
   def start_game(game), do: %{game | started: true}
+
+  @doc """
+  Did you give up?  Ok, then restart the game.
+  This will create a new game of the same number of blocks and mark it as started
+
+  ## Examples
+
+     iex> Hanoi.new_game(2) |> Hanoi.start_game() |> Hanoi.restart_game()
+     %Hanoi{started: true, num_pieces: 2, tower_a: [2,1]}
+
+  """
+  def restart_game(game), do: new_game(game.num_pieces) |> start_game()
 end

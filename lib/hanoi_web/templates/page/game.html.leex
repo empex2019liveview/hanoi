@@ -1,0 +1,24 @@
+<div class="game-screen">
+  <div class="game" data-started=<%= @game.started %>>
+    <div class="scorebug">
+      <div class="title">Towers of Hanoi</div>
+      <div class="counter">moves: <span class="value">0</span></div>
+      <div class="counter">time: <span class="value"><%= @game.tick %></span></div>
+      <div class="actions">
+        <button phx-click="restart_game" class="restart">Restart</button>
+        <span phx-click="config_game"><%= HanoiWeb.LayoutView.render("icon-cog.html") %></span>
+      </div>
+    </div>
+    <div class="board">
+      <div class="tower">
+        <%= HanoiWeb.PageView.render("tower.html", tower: @game.tower_a) %>
+      </div>
+      <div class="tower">
+        <%= HanoiWeb.PageView.render("tower.html", tower: @game.tower_b) %>
+      </div>
+      <div class="tower">
+        <%= HanoiWeb.PageView.render("tower.html", tower: @game.tower_c) %>
+      </div>
+    </div>
+  </div>
+</div>

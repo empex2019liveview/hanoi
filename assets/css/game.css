@@ -1,0 +1,89 @@
+
+.game-screen {
+  margin: 30px auto;
+}
+
+.game-screen .game {
+  border: 1px solid #63921A;
+  max-width: 800px;
+  margin: auto;
+  padding: 0 10px 0 10px;
+  background-color: #F2FDE0;
+}
+
+.game-screen .game .scorebug {
+  margin: 10px 0 20px;
+  display: flex;
+}
+
+.game-screen .game .scorebug .title, .game-screen .game .scorebug .counter {
+  font-family: 'Dokdo', cursive;
+  display: inline-block;
+  margin-right: 20px;
+  font-size: 20px;
+}
+
+.game-screen .game .scorebug .title {
+  font-size: 30px;
+  line-height: 30px;
+}
+
+.game-screen .game .scorebug .counter {
+  font-size: 20px;
+  line-height: 30px;
+  text-transform: uppercase;
+}
+
+.game-screen .game .scorebug .counter .value {
+  border: 1px solid #CB6E17;
+  background-color: #FFFBEA;
+  padding: 0 5px;
+  line-height: 20px;
+  text-align: center;
+  width: 100px;
+  display: inline-block;
+}
+
+.game-screen .game .scorebug .actions {
+  text-align: right;
+  flex: 1;
+}
+
+.game-screen .game h1 {
+  text-align: left;
+  font-family: 'Dokdo', cursive;
+  font-size: 40px;
+  padding: 0;
+  margin: 0;
+}
+
+.game-screen .board {
+  display: flex;
+  justify-content: center;
+}
+
+.game-screen .board .tower {
+  padding: 20px;
+}
+
+button.restart {
+  font-family: 'Dokdo', cursive;
+  font-size: 20px;
+  height: 25px;
+  line-height: 25px;
+  background-color: #8EEDC7;
+  color: #199473;
+  border: 1px solid #199473;
+  margin: 2px 0 0 0;
+}
+button.restart:hover {
+  background-color: #199473;
+  color: #8EEDC7;
+  border: 1px solid #8EEDC7;
+}
+
+.icon-cog {
+  width: 30px;
+  vertical-align: middle;
+  cursor: pointer;
+}

@@ -24,36 +24,35 @@
   justify-content: center;
 }
 
-.splash-screen .tower svg {
-  width: 300px;
-}
-
-.splash-screen .tower svg .base, .splash-screen .tower svg .pole {
-  fill: #A27C1A;
-}
-
-.splash-screen .tower svg .piece-down {
-  fill: #84C5F4;
-  stroke: #0A558C;
-}
-
-.splash-screen .tower svg .piece-up {
-  stroke: #0A558C;
-  fill: #0A558C;
-}
-
-.splash-screen .tower svg .piece-none {
-  display: none;
-}
-
 .left {
   padding: 0 50px 0 0;
   margin: 30px 0 0 0;
 }
 .left button {
   display: block;
-  min-width: 150px;
+  min-width: 200px;
+  font-size: 20px;
+  height: 25px;
+  line-height: 25px;
+  font-family: 'Dokdo', cursive;
+  padding: 0 0 0 0;
 }
+button.start {
+  font-family: 'Dokdo', cursive;
+  font-size: 40px;
+  height: 45px;
+  line-height: 45px;
+  background-color: #B6E0FE;
+  color: #2680C2;
+  border: 1px solid #2680C2;
+  margin-bottom: 30px;
+}
+button.start:hover {
+  background-color: #2680C2;
+  color: #B6E0FE;
+  border: 1px solid #B6E0FE;
+}
+
 button.harder-on {
   background-color: #FF9B9B;
   color: #AB091E;

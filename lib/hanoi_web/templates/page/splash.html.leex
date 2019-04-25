@@ -1,0 +1,17 @@
+<div class="splash-screen">
+  <div class="game">
+    <h1>Towers of Hanoi</h1>
+    <div class="container">
+      <div class="left">
+        <button phx-click="start_game" class="start">START</button>
+        <button phx-click="dec" class="easier-<%= if @game.num_pieces > 1, do: "on", else: "off" %>">Easier</button>
+        <button phx-click="inc" class="harder-<%= if @game.num_pieces < Hanoi.max_pieces, do: "on", else: "off" %>">Harder</button>
+      </div>
+      <div class="right">
+        <div class="tower">
+          <%= HanoiWeb.PageView.render("tower.html", tower: @game.tower_a) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

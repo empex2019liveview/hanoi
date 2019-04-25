@@ -1,0 +1,27 @@
+
+
+.splash-screen .tower svg {
+  width: 400px;
+}
+
+.game-screen .tower svg {
+  width: 200px;
+}
+
+.tower svg .base, .tower svg .pole {
+  fill: #A27C1A;
+}
+
+.tower svg .piece-down {
+  fill: #84C5F4;
+  stroke: #0A558C;
+}
+
+.tower svg .piece-up {
+  stroke: #0A558C;
+  fill: #0A558C;
+}
+
+.tower svg .piece-none {
+  display: none;
+}

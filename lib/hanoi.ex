@@ -2,7 +2,7 @@ defmodule Hanoi do
   @moduledoc """
    The Tower of Hanoi data structure and operations
   """
-  defstruct num_pieces: 4, tower_a: [], tower_b: [], tower_c: []
+  defstruct started: false, num_pieces: 4, tower_a: [], tower_b: [], tower_c: []
 
   @max_pieces 8
   def max_pieces(), do: @max_pieces
@@ -56,4 +56,14 @@ defmodule Hanoi do
      %Hanoi{num_pieces: 1, tower_a: [1]}
   """
   def dec(game), do: new_game(game.num_pieces - 1)
+
+  @doc """
+  When you are ready, start the game
+
+  ## Examples
+
+     iex> Hanoi.new_game() |> Hanoi.start_game() |> Map.fetch!(:started)
+     true
+  """
+  def start_game(game), do: %{game | started: true}
 end

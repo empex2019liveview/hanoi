@@ -8,7 +8,8 @@ defmodule Hanoi do
   def max_pieces(), do: @max_pieces
 
   @doc """
-  Create a new game with `num_pieces` blocks
+  Create a new game with `num_pieces` blocks.  You can provide an existing
+  game and grab it's number of pieces too.
 
   ## Examples
 
@@ -17,8 +18,12 @@ defmodule Hanoi do
 
      iex> Hanoi.new_game(5)
      %Hanoi{num_pieces: 5, tower_a: [5,4,3,2,1]}
+
+     iex> Hanoi.new_game(5) |> Hanoi.new_game()
+     %Hanoi{num_pieces: 5, tower_a: [5,4,3,2,1]}
   """
   def new_game(), do: new_game(4)
+  def new_game(%Hanoi{num_pieces: num_pieces}), do: new_game(num_pieces)
   def new_game(num_pieces) when num_pieces < 1, do: new_game(1)
   def new_game(num_pieces) when num_pieces > @max_pieces, do: new_game(@max_pieces)
 

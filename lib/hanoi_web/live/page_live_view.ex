@@ -11,15 +11,15 @@ defmodule HanoiWeb.PageLiveView do
   end
 
   def handle_event("inc", _, socket) do
-    {:noreply, socket |> update(:num_blocks, &(&1 + 1))}
+    {:noreply, socket |> update(:game, &Hanoi.inc(&1))}
   end
 
   def handle_event("dec", _, socket) do
-    {:noreply, socket |> update(:num_blocks, &max(1, &1 - 1))}
+    {:noreply, socket |> update(:game, &Hanoi.dec(&1))}
   end
 
   defp assign_game(socket) do
     socket
-    |> assign(:num_blocks, 4)
+    |> assign(:game, Hanoi.new_game())
   end
 end

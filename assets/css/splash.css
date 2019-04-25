@@ -1,0 +1,85 @@
+
+.splash-screen {
+  margin: 30px auto;
+}
+
+.splash-screen .game {
+  border: 1px solid #63921A;
+  max-width: 800px;
+  margin: auto;
+  padding: 20px 40px;
+  background-color: #F2FDE0;
+}
+
+.splash-screen .game h1 {
+  text-align: center;
+  font-family: 'Dokdo', cursive;
+  font-size: 80px;
+  display: block;
+}
+
+.splash-screen .game .container {
+  display: flex;
+  margin: auto;
+  justify-content: center;
+}
+
+.splash-screen .tower svg {
+  width: 300px;
+}
+
+.splash-screen .tower svg .base, .splash-screen .tower svg .pole {
+  fill: #A27C1A;
+}
+
+.splash-screen .tower svg .piece-down {
+  fill: #84C5F4;
+  stroke: #0A558C;
+}
+
+.splash-screen .tower svg .piece-up {
+  stroke: #0A558C;
+  fill: #0A558C;
+}
+
+.splash-screen .tower svg .piece-none {
+  display: none;
+}
+
+.left {
+  padding: 0 50px 0 0;
+  margin: 30px 0 0 0;
+}
+.left button {
+  display: block;
+  min-width: 150px;
+}
+button.harder-on {
+  background-color: #FF9B9B;
+  color: #AB091E;
+  border: 1px solid #AB091E;
+}
+button.harder-on:hover {
+  background-color: #AB091E;
+  color: #FF9B9B;
+  border: 1px solid #FF9B9B;
+}
+button.easier-on {
+  background-color: #8EEDC7;
+  color: #147D64;
+  border: 1px solid #147D64;
+}
+button:hover.easier-on {
+  background-color: #147D64;
+  color: #8EEDC7;
+  border: 1px solid #8EEDC7;
+}
+
+button.easier-off, button.harder-off {
+  background-color: #E1E1E1;
+  color: #626262;
+  border: 1px solid #626262;
+  disabled: disabled;
+  cursor: not-allowed;
+}
+

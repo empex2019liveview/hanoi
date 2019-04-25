@@ -2,7 +2,7 @@ defmodule Hanoi do
   @moduledoc """
    The Tower of Hanoi data structure and operations
   """
-  defstruct started: false, num_pieces: 4, tower_a: [], tower_b: [], tower_c: []
+  defstruct started: false, tick: 0, num_pieces: 4, tower_a: [], tower_b: [], tower_c: []
 
   @max_pieces 8
   def max_pieces(), do: @max_pieces
@@ -58,14 +58,28 @@ defmodule Hanoi do
   def dec(game), do: new_game(game.num_pieces - 1)
 
   @doc """
+  A unit of time has gone by (e.g. one second), mark it
+
+  ## Examples
+
+     iex> Hanoi.new_game(2) |> Hanoi.tick() |> Map.fetch!(:tick)
+     0
+
+     iex> Hanoi.new_game(2) |> Hanoi.start_game() |> Hanoi.tick() |> Map.fetch!(:tick)
+     1
+  """
+  def tick(%Hanoi{started: false} = game), do: game
+  def tick(%Hanoi{started: _, tick: tick} = game), do: %{game | tick: tick + 1}
+
+  @doc """
   When you are ready, start the game
 
   ## Examples
 
-     iex> Hanoi.new_game() |> Hanoi.start_game() |> Map.fetch!(:started)
+     iex> Hanoi.new_game() |> Hanoi.start_game() |> Hanoi.started?()
      true
   """
-  def start_game(game), do: %{game | started: true}
+  def start_game(game), do: %{game | started: :os.system_time(:millisecond)}
 
   @doc """
   Did you give up?  Ok, then restart the game.
@@ -73,9 +87,25 @@ defmodule Hanoi do
 
   ## Examples
 
-     iex> Hanoi.new_game(2) |> Hanoi.start_game() |> Hanoi.restart_game()
-     %Hanoi{started: true, num_pieces: 2, tower_a: [2,1]}
+     iex> Hanoi.new_game(2) |> Hanoi.start_game() |> Hanoi.restart_game() |> Map.fetch!(:num_pieces)
+     2
 
+     iex> Hanoi.new_game(2) |> Hanoi.start_game() |> Hanoi.restart_game() |> Hanoi.started?()
+     true
   """
   def restart_game(game), do: new_game(game.num_pieces) |> start_game()
+
+  @doc """
+  Has the game started?  Check if the started is false, if not then it is started
+
+  ## Examples
+
+     iex> Hanoi.new_game(2) |> Hanoi.started?()
+     false
+
+     iex> Hanoi.new_game(2) |> Hanoi.start_game() |> Hanoi.started?()
+     true
+  """
+  def started?(%Hanoi{started: false}), do: false
+  def started?(%Hanoi{started: _}), do: true
 end

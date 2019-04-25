@@ -1,38 +1,30 @@
-<section class="phx-hero" data-tock="<%= @tock %>" style="background-color: <%= @bgcolor %>; color: <%= @fgcolor %>">
-  <h1><%= gettext "Welcome to %{name}!", name: "Phoenix" %></h1>
-  <p>A productive web framework that<br/>does not compromise speed or maintainability.</p>
-</section>
+<style>
+  <%= for n <- 1..@num_blocks do %>
+    .block-<%= n %> {
+      width: <%= 20 + (n-1)*20 %>px;
+    }
+  <% end %>
+  .tower {
+    width: <%= 40 + @num_blocks*20 %>px;
+  }
 
-<section class="row">
-  <article class="column">
-    <h2>Resources</h2>
-    <ul>
-      <li>
-        <a href="https://hexdocs.pm/phoenix/overview.html">Guides &amp; Docs</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix">Source</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix/blob/v1.4/CHANGELOG.md">v1.4 Changelog</a>
-      </li>
-    </ul>
-  </article>
-  <article class="column">
-    <h2>Help</h2>
-    <ul>
-      <li>
-        <a href="https://elixirforum.com/c/phoenix-forum">Forum</a>
-      </li>
-      <li>
-        <a href="https://webchat.freenode.net/?channels=elixir-lang">#elixir-lang on Freenode IRC</a>
-      </li>
-      <li>
-        <a href="https://twitter.com/elixirphoenix">Twitter @elixirphoenix</a>
-      </li>
-      <li>
-        <a href="https://elixir-slackin.herokuapp.com/">Elixir on Slack</a>
-      </li>
-    </ul>
-  </article>
-</section>
+</style>
+
+<div class="game">
+  <h1>Tower of Hanoi</h1>
+  <div class="container">
+    <div class="left">
+      <button phx-click="dec" class="easier">Easier</button>
+      <button phx-click="inc" class="harder">Harder</button>
+    </div>
+    <div class="right">
+      <div class="tower">
+        <%= for n <- 1..@num_blocks do %>
+          <div class="block block-<%= n %>"></div>
+        <% end %>
+        <div class="base"></div>
+      </div>
+    </div>
+  </div>
+</div>
+

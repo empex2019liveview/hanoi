@@ -2,42 +2,24 @@ defmodule HanoiWeb.PageLiveView do
   use Phoenix.LiveView
   import HanoiWeb.Gettext
 
-  @colours [
-    "#5ED0FA",
-    "#54D1DB",
-    "#A368FC",
-    "#F86A6A",
-    "#FADB5F",
-    "#65D6AD",
-    "#127FBF",
-    "#0E7C86",
-    "#690CB0",
-    "#AB091E",
-    "#CB6E17",
-    "#147D64"
-  ]
-
   def render(assigns) do
     HanoiWeb.PageView.render("index.html", assigns)
   end
 
   def mount(_session, socket) do
-    if connected?(socket), do: tick()
-    {:ok, socket |> assign(tock: 1000) |> assign_colours()}
+    {:ok, socket |> assign_game()}
   end
 
-  def handle_info(:tick, socket) do
-    tick()
-    {:noreply, socket |> update(:tock, &(&1 + 1)) |> assign_colours()}
+  def handle_event("inc", _, socket) do
+    {:noreply, socket |> update(:num_blocks, &(&1 + 1))}
   end
 
-  defp colour(), do: @colours |> Enum.random()
+  def handle_event("dec", _, socket) do
+    {:noreply, socket |> update(:num_blocks, &max(1, &1 - 1))}
+  end
 
-  defp assign_colours(socket) do
+  defp assign_game(socket) do
     socket
-    |> assign(:bgcolor, colour())
-    |> assign(:fgcolor, colour())
+    |> assign(:num_blocks, 4)
   end
-
-  defp tick(), do: Process.send_after(self(), :tick, 1000)
 end

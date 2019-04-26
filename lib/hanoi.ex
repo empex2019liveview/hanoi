@@ -124,6 +124,54 @@ defmodule Hanoi do
   def started?(%Hanoi{started: false}), do: false
   def started?(%Hanoi{started: _}), do: true
 
+  @doc """
+  Pick a piece.
+
+  ## Examples
+
+     iex> Hanoi.new_game(2) |> Hanoi.pick(:tower_b)
+     %Hanoi{num_pieces: 2, tower_a: [2,1], display_a: [{2, :down}, {1, :down}]}
+
+     iex> Hanoi.new_game(2) |> Hanoi.pick(:tower_a)
+     %Hanoi{num_pieces: 2, picked: {:tower_a, 2}, tower_a: [1], display_a: [{2, :up}, {1, :down}]}
+
+     iex> Hanoi.new_game(2) |> Hanoi.pick(:tower_a) |> Hanoi.pick(:tower_a)
+     %Hanoi{num_pieces: 2, picked: nil, tower_a: [2, 1], display_a: [{2, :down}, {1, :down}]}
+
+     iex> Hanoi.new_game(2) |> Hanoi.pick(:tower_a) |> Hanoi.pick(:tower_b)
+     %Hanoi{num_pieces: 2, picked: nil, tower_a: [1], tower_b: [2], display_a: [{1, :down}], display_b: [{2, :down}]}
+
+     iex> %Hanoi{picked: {:tower_a, 1}, tower_a: [], tower_b: [2]} |> Hanoi.pick(:tower_b)
+     %Hanoi{picked: {:tower_a, 1}, tower_a: [], tower_b: [2], display_a: [{1, :up}], display_b: [{2, :down}]}
+  """
+  def pick(game, tower) do
+    game
+    |> _pick(tower, Map.fetch!(game, tower))
+    |> display()
+  end
+
+  defp _pick(%Hanoi{picked: nil} = game, _tower, []), do: game
+
+  defp _pick(%Hanoi{picked: nil} = game, tower, [h | t]) do
+    game
+    |> Map.put(:picked, {tower, h})
+    |> Map.put(tower, t)
+  end
+
+  defp _pick(%Hanoi{picked: {tower, n}} = game, tower, pegs) do
+    game
+    |> Map.put(:picked, nil)
+    |> Map.put(tower, [n | pegs])
+  end
+
+  defp _pick(%Hanoi{picked: {_, n}} = game, _tower, [m | _t]) when m > n, do: game
+
+  defp _pick(%Hanoi{picked: {_, n}} = game, tower, pegs) do
+    game
+    |> Map.put(:picked, nil)
+    |> Map.put(tower, [n | pegs])
+  end
+
   defp display(game) do
     %{
       game

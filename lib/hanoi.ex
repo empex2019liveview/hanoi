@@ -2,7 +2,13 @@ defmodule Hanoi do
   @moduledoc """
    The Tower of Hanoi data structure and operations
   """
-  defstruct started: false, tick: 0, num_pieces: 4, tower_a: [], tower_b: [], tower_c: []
+  defstruct started: false,
+            tick: 0,
+            picked: nil,
+            num_pieces: 4,
+            tower_a: [],
+            tower_b: [],
+            tower_c: []
 
   @max_pieces 8
   def max_pieces(), do: @max_pieces

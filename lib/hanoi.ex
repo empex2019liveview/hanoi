@@ -8,7 +8,10 @@ defmodule Hanoi do
             num_pieces: 4,
             tower_a: [],
             tower_b: [],
-            tower_c: []
+            tower_c: [],
+            display_a: [],
+            display_b: [],
+            display_c: []
 
   @max_pieces 8
   def max_pieces(), do: @max_pieces
@@ -20,13 +23,13 @@ defmodule Hanoi do
   ## Examples
 
      iex> Hanoi.new_game()
-     %Hanoi{tower_a: [4,3,2,1]}
+     %Hanoi{tower_a: [4,3,2,1], display_a: [{4, :down}, {3, :down}, {2, :down}, {1, :down}]}
 
      iex> Hanoi.new_game(5)
-     %Hanoi{num_pieces: 5, tower_a: [5,4,3,2,1]}
+     %Hanoi{num_pieces: 5, tower_a: [5,4,3,2,1], display_a: [{5, :down}, {4, :down}, {3, :down}, {2, :down}, {1, :down}]}
 
      iex> Hanoi.new_game(5) |> Hanoi.new_game()
-     %Hanoi{num_pieces: 5, tower_a: [5,4,3,2,1]}
+     %Hanoi{num_pieces: 5, tower_a: [5,4,3,2,1], display_a: [{5, :down}, {4, :down}, {3, :down}, {2, :down}, {1, :down}]}
   """
   def new_game(), do: new_game(4)
   def new_game(%Hanoi{num_pieces: num_pieces}), do: new_game(num_pieces)
@@ -38,6 +41,7 @@ defmodule Hanoi do
       num_pieces: num_pieces,
       tower_a: num_pieces..1 |> Enum.into([])
     }
+    |> display()
   end
 
   @doc """
@@ -47,7 +51,7 @@ defmodule Hanoi do
   ## Examples
 
      iex> Hanoi.new_game(3) |> Hanoi.inc()
-     %Hanoi{tower_a: [4,3,2,1]}
+     %Hanoi{tower_a: [4,3,2,1], display_a: [{4, :down}, {3, :down}, {2, :down}, {1, :down}]}
 
      iex> Hanoi.new_game(8) |> Hanoi.inc()
      Hanoi.new_game(8)
@@ -61,10 +65,10 @@ defmodule Hanoi do
   ## Examples
 
      iex> Hanoi.new_game(5) |> Hanoi.dec()
-     %Hanoi{tower_a: [4,3,2,1]}
+     %Hanoi{tower_a: [4,3,2,1], display_a: [{4, :down}, {3, :down}, {2, :down}, {1, :down}]}
 
      iex> Hanoi.new_game(1) |> Hanoi.dec()
-     %Hanoi{num_pieces: 1, tower_a: [1]}
+     %Hanoi{num_pieces: 1, tower_a: [1], display_a: [{1, :down}]}
   """
   def dec(game), do: new_game(game.num_pieces - 1)
 
@@ -119,4 +123,27 @@ defmodule Hanoi do
   """
   def started?(%Hanoi{started: false}), do: false
   def started?(%Hanoi{started: _}), do: true
+
+  defp display(game) do
+    %{
+      game
+      | display_a: display_tower(game, :tower_a),
+        display_b: display_tower(game, :tower_b),
+        display_c: display_tower(game, :tower_c)
+    }
+  end
+
+  defp display_tower(%Hanoi{picked: {tower, n}} = game, tower) do
+    [{n, :up}] ++ down_pegs(game, tower)
+  end
+
+  defp display_tower(game, tower) do
+    down_pegs(game, tower)
+  end
+
+  defp down_pegs(game, tower) do
+    game
+    |> Map.fetch!(tower)
+    |> Enum.map(fn n -> {n, :down} end)
+  end
 end

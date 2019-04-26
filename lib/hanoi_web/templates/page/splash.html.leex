@@ -9,7 +9,7 @@
       </div>
       <div class="right">
         <div class="tower">
-          <%= HanoiWeb.PageView.render("tower.html", tower: :tower_a, game: @game) %>
+          <%= HanoiWeb.PageView.render("tower.html", tower: @game.display_a) %>
         </div>
       </div>
     </div>

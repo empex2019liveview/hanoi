@@ -11,13 +11,13 @@
     </div>
     <div class="board">
       <div class="tower">
-        <%= HanoiWeb.PageView.render("tower.html", tower: :tower_a, game: @game) %>
+        <%= HanoiWeb.PageView.render("tower.html", tower: @game.display_a) %>
       </div>
       <div class="tower">
-        <%= HanoiWeb.PageView.render("tower.html", tower: :tower_b, game: @game) %>
+        <%= HanoiWeb.PageView.render("tower.html", tower: @game.display_b) %>
       </div>
       <div class="tower">
-        <%= HanoiWeb.PageView.render("tower.html", tower: :tower_c, game: @game) %>
+        <%= HanoiWeb.PageView.render("tower.html", tower: @game.display_c) %>
       </div>
     </div>
   </div>

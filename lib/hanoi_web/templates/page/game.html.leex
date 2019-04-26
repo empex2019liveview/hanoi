@@ -10,13 +10,13 @@
       </div>
     </div>
     <div class="board">
-      <div class="tower">
+      <div class="tower" phx-click="tower_a">
         <%= HanoiWeb.PageView.render("tower.html", tower: @game.display_a) %>
       </div>
-      <div class="tower">
+      <div class="tower" phx-click="tower_b">
         <%= HanoiWeb.PageView.render("tower.html", tower: @game.display_b) %>
       </div>
-      <div class="tower">
+      <div class="tower" phx-click="tower_c">
         <%= HanoiWeb.PageView.render("tower.html", tower: @game.display_c) %>
       </div>
     </div>

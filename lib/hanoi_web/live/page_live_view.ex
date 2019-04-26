@@ -34,6 +34,18 @@ defmodule HanoiWeb.PageLiveView do
     {:noreply, socket |> update(:game, &Hanoi.dec(&1))}
   end
 
+  def handle_event("tower_a", _, socket) do
+    {:noreply, socket |> update(:game, &Hanoi.pick(&1, :tower_a))}
+  end
+
+  def handle_event("tower_b", _, socket) do
+    {:noreply, socket |> update(:game, &Hanoi.pick(&1, :tower_b))}
+  end
+
+  def handle_event("tower_c", _, socket) do
+    {:noreply, socket |> update(:game, &Hanoi.pick(&1, :tower_c))}
+  end
+
   def handle_info({:tick, original_started}, socket) do
     socket
     |> update(:game, &Hanoi.tick(&1))

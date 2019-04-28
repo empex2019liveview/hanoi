@@ -4,6 +4,7 @@ defmodule Hanoi do
   """
   defstruct started: false,
             ended: false,
+            duration: 0,
             tick: 0,
             picked: nil,
             num_pieces: 4,
@@ -96,7 +97,7 @@ defmodule Hanoi do
      iex> Hanoi.new_game() |> Hanoi.start_game() |> Hanoi.started?()
      true
   """
-  def start_game(game), do: %{game | started: :os.system_time(:millisecond)}
+  def start_game(game), do: %{game | started: now()}
 
   @doc """
   Did you give up?  Ok, then restart the game.
@@ -127,6 +128,20 @@ defmodule Hanoi do
   def started?(%Hanoi{started: _}), do: true
 
   @doc """
+  Has the game ended?  Check if the ended is false, if not then it has neded
+
+  ## Examples
+
+     iex> Hanoi.new_game(2) |> Hanoi.ended?()
+     false
+
+     iex> Hanoi.ended?(%Hanoi{ended: 1234})
+     true
+  """
+  def ended?(%Hanoi{ended: false}), do: false
+  def ended?(%Hanoi{ended: _}), do: true
+
+  @doc """
   Pick a piece.
 
   ## Examples
@@ -145,6 +160,12 @@ defmodule Hanoi do
 
      iex> %Hanoi{picked: {:tower_a, 1}, tower_a: [], tower_b: [2]} |> Hanoi.pick(:tower_b)
      %Hanoi{picked: {:tower_a, 1}, tower_a: [], tower_b: [2], display_a: [{1, :up}], display_b: [{2, :down}]}
+
+     iex> %Hanoi{picked: {:tower_a, 2}, tower_a: [], tower_c: []} |> Hanoi.ended?()
+     false
+
+     iex> %Hanoi{picked: {:tower_a, 2}, tower_a: [], tower_c: [1]} |> Hanoi.pick(:tower_c) |> Hanoi.ended?()
+     true
   """
   def pick(game, tower) do
     game
@@ -176,12 +197,10 @@ defmodule Hanoi do
   end
 
   defp display(game) do
-    %{
-      game
-      | display_a: display_tower(game, :tower_a),
-        display_b: display_tower(game, :tower_b),
-        display_c: display_tower(game, :tower_c)
-    }
+    game
+    |> update_towers()
+    |> update_won()
+    |> update_duration()
   end
 
   defp display_tower(%Hanoi{picked: {tower, n}} = game, tower) do
@@ -197,4 +216,28 @@ defmodule Hanoi do
     |> Map.fetch!(tower)
     |> Enum.map(fn n -> {n, :down} end)
   end
+
+  defp update_towers(game) do
+    %{
+      game
+      | display_a: display_tower(game, :tower_a),
+        display_b: display_tower(game, :tower_b),
+        display_c: display_tower(game, :tower_c)
+    }
+  end
+
+  defp update_won(%Hanoi{ended: false, picked: nil, tower_a: [], tower_b: []} = game) do
+    %{game | ended: now()}
+  end
+
+  defp update_won(game), do: game
+
+  defp update_duration(%Hanoi{started: false} = game), do: game
+  defp update_duration(%Hanoi{ended: false} = game), do: game
+
+  defp update_duration(%Hanoi{started: s, ended: e} = game) do
+    %{game | duration: ((e - s) / 1000) |> round()}
+  end
+
+  defp now(), do: :os.system_time(:millisecond)
 end

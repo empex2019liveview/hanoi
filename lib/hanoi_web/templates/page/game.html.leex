@@ -1,4 +1,10 @@
 <div class="game-screen">
+  <%= if @game.ended do %>
+    <div class="won">
+      You win!<br>
+      It took you <%= @game.num_moves %> moves and <%= @game.duration %> seoncds.
+    </div>
+  <% end %>
   <div class="game" data-started=<%= @game.started %>>
     <div class="scorebug">
       <div class="title">Towers of Hanoi</div>

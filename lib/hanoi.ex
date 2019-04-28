@@ -3,6 +3,7 @@ defmodule Hanoi do
    The Tower of Hanoi data structure and operations
   """
   defstruct started: false,
+            ended: false,
             tick: 0,
             picked: nil,
             num_pieces: 4,

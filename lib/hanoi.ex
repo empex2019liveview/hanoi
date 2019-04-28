@@ -6,6 +6,7 @@ defmodule Hanoi do
             tick: 0,
             picked: nil,
             num_pieces: 4,
+            num_moves: 0,
             tower_a: [],
             tower_b: [],
             tower_c: [],
@@ -139,7 +140,7 @@ defmodule Hanoi do
      %Hanoi{num_pieces: 2, picked: nil, tower_a: [2, 1], display_a: [{2, :down}, {1, :down}]}
 
      iex> Hanoi.new_game(2) |> Hanoi.pick(:tower_a) |> Hanoi.pick(:tower_b)
-     %Hanoi{num_pieces: 2, picked: nil, tower_a: [1], tower_b: [2], display_a: [{1, :down}], display_b: [{2, :down}]}
+     %Hanoi{num_pieces: 2, picked: nil, num_moves: 1, tower_a: [1], tower_b: [2], display_a: [{1, :down}], display_b: [{2, :down}]}
 
      iex> %Hanoi{picked: {:tower_a, 1}, tower_a: [], tower_b: [2]} |> Hanoi.pick(:tower_b)
      %Hanoi{picked: {:tower_a, 1}, tower_a: [], tower_b: [2], display_a: [{1, :up}], display_b: [{2, :down}]}
@@ -169,6 +170,7 @@ defmodule Hanoi do
   defp _pick(%Hanoi{picked: {_, n}} = game, tower, pegs) do
     game
     |> Map.put(:picked, nil)
+    |> Map.update!(:num_moves, &(&1 + 1))
     |> Map.put(tower, [n | pegs])
   end
 

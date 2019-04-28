@@ -46,10 +46,10 @@ defmodule HanoiWeb.PageLiveView do
     {:noreply, socket |> update(:game, &Hanoi.pick(&1, :tower_c))}
   end
 
-  def handle_info({:tick, original_started}, socket) do
+  def handle_info(:tick, socket) do
     socket
-    |> update(:game, &Hanoi.tick(&1))
-    |> tick(original_started)
+    |> update(:game, &Hanoi.display(&1))
+    |> tick()
   end
 
   defp assign_game(socket) do
@@ -57,11 +57,9 @@ defmodule HanoiWeb.PageLiveView do
     |> assign(:game, Hanoi.new_game())
   end
 
-  defp tick(socket), do: tick(socket, socket.assigns[:game].started)
-
-  defp tick(socket, original_started) do
-    if connected?(socket) && socket.assigns[:game].started == original_started do
-      Process.send_after(self(), {:tick, original_started}, 1000)
+  defp tick(socket) do
+    if connected?(socket) && !socket.assigns[:game].ended() do
+      Process.send_after(self(), :tick, 1000)
     end
 
     {:noreply, socket}

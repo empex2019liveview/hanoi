@@ -5,7 +5,6 @@ defmodule Hanoi do
   defstruct started: false,
             ended: false,
             duration: 0,
-            tick: 0,
             picked: nil,
             num_pieces: 4,
             num_moves: 0,
@@ -74,20 +73,6 @@ defmodule Hanoi do
      %Hanoi{num_pieces: 1, tower_a: [1], display_a: [{1, :down}]}
   """
   def dec(game), do: new_game(game.num_pieces - 1)
-
-  @doc """
-  A unit of time has gone by (e.g. one second), mark it
-
-  ## Examples
-
-     iex> Hanoi.new_game(2) |> Hanoi.tick() |> Map.fetch!(:tick)
-     0
-
-     iex> Hanoi.new_game(2) |> Hanoi.start_game() |> Hanoi.tick() |> Map.fetch!(:tick)
-     1
-  """
-  def tick(%Hanoi{started: false} = game), do: game
-  def tick(%Hanoi{started: _, tick: tick} = game), do: %{game | tick: tick + 1}
 
   @doc """
   When you are ready, start the game
@@ -196,7 +181,15 @@ defmodule Hanoi do
     |> Map.put(tower, [n | pegs])
   end
 
-  defp display(game) do
+  @doc """
+  Update the game's display.
+
+  ## Examples
+
+     iex> %Hanoi{picked: {:tower_a, 1}, tower_a: [], tower_b: [2]} |> Hanoi.display()
+     %Hanoi{picked: {:tower_a, 1}, tower_a: [], tower_b: [2], display_a: [{1, :up}], display_b: [{2, :down}]}
+  """
+  def display(game) do
     game
     |> update_towers()
     |> update_won()
@@ -232,12 +225,17 @@ defmodule Hanoi do
 
   defp update_won(game), do: game
 
-  defp update_duration(%Hanoi{started: false} = game), do: game
-  defp update_duration(%Hanoi{ended: false} = game), do: game
+  defp update_duration(%Hanoi{started: false} = game), do: %{game | duration: 0}
+
+  defp update_duration(%Hanoi{started: s, ended: false} = game) do
+    %{game | duration: duration(s, now())}
+  end
 
   defp update_duration(%Hanoi{started: s, ended: e} = game) do
-    %{game | duration: ((e - s) / 1000) |> round()}
+    %{game | duration: duration(s, e)}
   end
 
   defp now(), do: :os.system_time(:millisecond)
+
+  defp duration(started, ended), do: ((ended - started) / 1000) |> round()
 end

@@ -9,7 +9,7 @@
     <div class="scorebug">
       <div class="title">Towers of Hanoi</div>
       <div class="counter">moves: <span class="value"><%= @game.num_moves %></span></div>
-      <div class="counter">time: <span class="value"><%= @game.tick %></span></div>
+      <div class="counter">time: <span class="value"><%= @game.duration %></span></div>
       <div class="actions">
         <button phx-click="restart_game" class="restart">Restart</button>
         <span phx-click="config_game"><%= HanoiWeb.LayoutView.render("icon-cog.html") %></span>

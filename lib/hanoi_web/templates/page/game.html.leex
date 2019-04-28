@@ -2,7 +2,7 @@
   <div class="game" data-started=<%= @game.started %>>
     <div class="scorebug">
       <div class="title">Towers of Hanoi</div>
-      <div class="counter">moves: <span class="value">0</span></div>
+      <div class="counter">moves: <span class="value"><%= @game.num_moves %></span></div>
       <div class="counter">time: <span class="value"><%= @game.tick %></span></div>
       <div class="actions">
         <button phx-click="restart_game" class="restart">Restart</button>
